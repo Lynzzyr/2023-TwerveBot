@@ -34,7 +34,7 @@ public class TwerveModule extends SubsystemBase {
   private final DifferentialDrive drive;
 
   // Encoders
-  private final WPI_CANCoder driveEncoder; // Assumes that the encoder is placed so that it only rotates when DifferentialDrive moves straight and is not turning
+  private final WPI_CANCoder driveEncoder; // Assumes that the encoder is placed so that it only rotates when the DifferentialDrive moves straight and is not rotating
   private final CANCoderConfiguration driveEncoderConfig;
   private final WPI_CANCoder turnEncoder;
   private final CANCoderConfiguration turnEncoderConfig;

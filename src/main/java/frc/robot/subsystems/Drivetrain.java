@@ -13,6 +13,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.kDrivetrain;
 import frc.robot.Constants.kRobot;
@@ -31,10 +33,11 @@ public class Drivetrain extends SubsystemBase {
   private final Translation2d locBL;
   private final Translation2d locBR;
 
-  // Sensors
+  // Sensors & location
   private final WPI_Pigeon2 gyro;
   private final SwerveDriveKinematics kinematics;
   private final SwerveDriveOdometry odometry;
+  private final Field2d field2d;
 
   public Drivetrain() {
 
@@ -50,9 +53,12 @@ public class Drivetrain extends SubsystemBase {
     locBL = new Translation2d(-kRobot.kLength / 2, kRobot.kWidth / 2);
     locBR = new Translation2d(-kRobot.kLength / 2, -kRobot.kWidth / 2);
 
-    // Sensors
+    // Sensors & location
     gyro = new WPI_Pigeon2(kDrivetrain.gyroID);
     zeroHeading();
+
+    field2d = new Field2d();
+    SmartDashboard.putData("Field", field2d);
 
     kinematics = new SwerveDriveKinematics(locFL, locFR, locBL, locBR);
     odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d(),
@@ -119,6 +125,8 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
 
     updateOdometry();
+
+    field2d.setRobotPose(odometry.getPoseMeters());
 
   }
 }
